@@ -8,8 +8,8 @@ Route::get('/login', function () {
 })->name('login');
 
 Route::controller(RegisterController::class)->prefix('register')->group(function () {
-    Route::get('/', [RegisterController::class, 'create'])->name('register.create');
-    Route::post('/', [RegisterController::class, 'store'])->name('register.store');
+    Route::get('/', 'create')->name('register.create');
+    Route::post('/', 'store')->name('register.store');
 });
 
 
