@@ -3,10 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Interfaces\UserRepositoryInterface;
+use App\Services\FileUploadService;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
+    private FileUploadService $fileUploadService;
+    private UserRepositoryInterface $userRepository;
+
+    /**
+     * Method: construct a new instance of controller.
+     *
+     * @param FileUploadService $fileUploadService
+     * @param UserRepositoryInterface $userRepository
+     */
+    public function __construct(FileUploadService $fileUploadService, UserRepositoryInterface $userRepository)
+    {
+        $this->fileUploadService = $fileUploadService;
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Display a listing of the resource. + -
      *
@@ -34,6 +51,14 @@ class RegisterController extends Controller
     public function store(RegisterRequest $request)
     {
         $validated = $request->validated();
+
+        if ($request->file('image')) {
+            $validated['image'] = $this->fileUploadService->handleUploadImage($request->file('image'), 'public/images');
+        }
+
+        $this->userRepository->store($validated);
+
+        return redirect()->route('login')->with('success', 'Registered Successfully');
     }
 
     /**

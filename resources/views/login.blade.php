@@ -14,6 +14,9 @@
                     />
                 </div>
                 <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+                    @if(session()->has('success'))
+                        <div class="bg-green-200 px-2 py-1 rounded text-black mb-2">{{ session()->get('success') }}</div>
+                    @endif
                     <form action="#" method="post">
                         <div class="flex flex-row items-center justify-center lg:justify-start">
                             <p class="text-lg mb-2 mr-4">Sign in with</p>
