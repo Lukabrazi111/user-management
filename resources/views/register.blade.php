@@ -14,7 +14,9 @@
                     />
                 </div>
                 <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
-                    <form action="#" method="post">
+                    <form action="{{ route('register.store') }}" method="post" enctype="multipart/form-data">
+                        @csrf
+
                         <div class="flex flex-row items-center justify-center lg:justify-start">
                             <p class="text-lg mb-2 mr-4">Sign Up</p>
                         </div>
@@ -28,6 +30,9 @@
                                 name="first_name"
                                 placeholder="First name"
                             />
+                            @error('first_name')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Last name input -->
@@ -39,6 +44,9 @@
                                 name="last_name"
                                 placeholder="Last name"
                             />
+                            @error('last_name')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Username input -->
@@ -50,6 +58,22 @@
                                 name="username"
                                 placeholder="Username"
                             />
+                            @error('username')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <!-- Username input -->
+                        <div class="mb-6 flex flex-col items-start">
+                            <label for="image" class="mb-1">Not required.</label>
+                            <input
+                                type="file"
+                                id="image"
+                                name="image"
+                            />
+                            @error('image')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Email input -->
@@ -61,6 +85,9 @@
                                 name="email"
                                 placeholder="Email address"
                             />
+                            @error('email')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Password input -->
@@ -72,6 +99,9 @@
                                 id="password"
                                 placeholder="Password"
                             />
+                            @error('password')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Password input -->
@@ -83,6 +113,9 @@
                                 id="confirm_password"
                                 placeholder="Confirm password"
                             />
+                            @error('confirm_password')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="text-center lg:text-left">
