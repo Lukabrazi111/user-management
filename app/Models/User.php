@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
@@ -48,15 +47,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-//    /**
-//     * Hash password after registration.
-//     *
-//     * @return Attribute
-//     */
-//    public function Password(): Attribute
-//    {
-//        return Attribute::make(
-//            set: fn($password) => Hash::make($password),
-//        );
-//    }
+    /**
+     * Hash password after registration.
+     *
+     * @return Attribute
+     */
+    public function Password(): Attribute
+    {
+        return Attribute::make(
+            set: fn($password) => Hash::make($password),
+        );
+    }
 }
