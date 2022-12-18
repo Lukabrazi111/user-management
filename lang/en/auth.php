@@ -18,7 +18,9 @@ return [
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
     'not_found' => 'User not found',
+    'not_verified' => 'Your email is not verified',
     'verified' => 'Account verified successfully',
+    'bad_credentials' => 'Incorrect credentials',
     'logged_in' => 'You logged in successfully',
     'logged_out' => 'Logged out',
 

@@ -17,7 +17,7 @@ class VerifiedUser
     public function handle(Request $request, Closure $next)
     {
         if (is_null(auth()->user()->email_verified_at)) {
-            return redirect()->route('login.index')->with('error', 'Your email is not verified');
+            return redirect()->route('login.index')->with('error', __('auth.not_verified'));
         }
 
         return $next($request);
