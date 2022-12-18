@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Hash;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -46,16 +44,4 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /**
-     * Hash password after registration.
-     *
-     * @return Attribute
-     */
-    public function Password(): Attribute
-    {
-        return Attribute::make(
-            set: fn($password) => Hash::make($password),
-        );
-    }
 }
