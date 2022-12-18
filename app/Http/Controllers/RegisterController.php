@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\Register\RegisterRequest;
 use App\Interfaces\InvitationRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
@@ -53,6 +53,6 @@ class RegisterController extends Controller
             return redirect()->route('invitation.create')->with('error', 'User not found');
         }
 
-        return redirect()->route('login')->with('success', 'Account verified successfully');
+        return redirect()->route('login.index')->with('success', 'Account verified successfully');
     }
 }

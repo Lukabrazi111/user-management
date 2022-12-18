@@ -18,7 +18,12 @@
                         <div
                             class="bg-green-200 px-2 py-1 rounded text-black mb-2">{{ session()->get('success') }}</div>
                     @endif
-                    <form action="#" method="post">
+                    @if(session()->has('error'))
+                        <div
+                            class="bg-red-300 px-2 py-1 rounded text-black mb-2">{{ session()->get('error') }}</div>
+                    @endif
+                    <form action="{{ route('login') }}" method="post">
+                        @csrf
                         <div class="flex flex-row items-center justify-center lg:justify-start">
                             <p class="text-lg mb-2 mr-4">Sign in with</p>
                         </div>
@@ -32,6 +37,9 @@
                                 name="email"
                                 placeholder="Email address"
                             />
+                            @error('email')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <!-- Password input -->
@@ -43,6 +51,9 @@
                                 id="password"
                                 placeholder="Password"
                             />
+                            @error('password')
+                            <span class="text-red-400 underline">{{ $message }}</span>
+                            @enderror
                         </div>
 
                         <div class="flex justify-between items-center mb-6">

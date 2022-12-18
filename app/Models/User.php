@@ -48,15 +48,15 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Hash password after registration.
-     *
-     * @return Attribute
-     */
-    public function Password(): Attribute
-    {
-        return Attribute::make(
-            set: fn($password) => Hash::make($password),
-        );
-    }
+//    /**
+//     * Hash password after registration.
+//     *
+//     * @return Attribute
+//     */
+//    public function Password(): Attribute
+//    {
+//        return Attribute::make(
+//            set: fn($password) => Hash::make($password),
+//        );
+//    }
 }

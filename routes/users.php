@@ -4,6 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', function () {
-        return view('users.index');
-    })->name('users.index');
+        return view('todo.index');
+    })->name('todo.index');
 });

@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\InvitationRequest;
+use App\Http\Requests\Invitation\InvitationRequest;
 use App\Interfaces\InvitationRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Mail\InvitationMail;
-use App\Models\User;
 use App\Services\FileUploadService;
 use Mail;
 use Str;
@@ -59,7 +58,7 @@ class InvitationController extends Controller
         // Send email to user.
         Mail::to($user->email)->send(new InvitationMail($user, $token));
 
-        return redirect()->route('login')->with('success', 'We sent you verification message on email, please check');
+        return redirect()->route('login.index')->with('success', 'We sent you verification message on email, please check');
     }
 
     /**
