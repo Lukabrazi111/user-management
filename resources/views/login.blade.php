@@ -15,7 +15,8 @@
                 </div>
                 <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
                     @if(session()->has('success'))
-                        <div class="bg-green-200 px-2 py-1 rounded text-black mb-2">{{ session()->get('success') }}</div>
+                        <div
+                            class="bg-green-200 px-2 py-1 rounded text-black mb-2">{{ session()->get('success') }}</div>
                     @endif
                     <form action="#" method="post">
                         <div class="flex flex-row items-center justify-center lg:justify-start">
@@ -69,7 +70,7 @@
                             <p class="text-sm font-semibold mt-2 pt-1 mb-0">
                                 Don't have an account?
                                 <a
-                                    href="{{ route('register.create') }}"
+                                    href="{{ route('invitation.create') }}"
                                     class="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
                                 >Register</a
                                 >

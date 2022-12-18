@@ -3,46 +3,33 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterRequest;
+use App\Interfaces\InvitationRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
-use App\Services\FileUploadService;
-use Hash;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    private FileUploadService $fileUploadService;
     private UserRepositoryInterface $userRepository;
+    private InvitationRepositoryInterface $invitationRepository;
 
     /**
      * Method: construct a new instance of controller.
      *
-     * @param FileUploadService $fileUploadService
      * @param UserRepositoryInterface $userRepository
+     * @param InvitationRepositoryInterface $invitationRepository
      */
-    public function __construct(FileUploadService $fileUploadService, UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $userRepository, InvitationRepositoryInterface $invitationRepository)
     {
-        $this->fileUploadService = $fileUploadService;
         $this->userRepository = $userRepository;
+        $this->invitationRepository = $invitationRepository;
     }
 
     /**
-     * Display a listing of the resource. + -
-     *
-     * @return Response
+     * Show the form for create a new resource.
      */
-    public function index()
+    public function create($token)
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     */
-    public function create()
-    {
-        return view('register');
+        return view('register', compact('token'));
     }
 
     /**
@@ -53,58 +40,19 @@ class RegisterController extends Controller
     public function store(RegisterRequest $request)
     {
         $validated = $request->validated();
+        $validated['password'] = Hash::make($validated['password']);
+        $invited = $this->invitationRepository->getByToken($validated['token']);
 
-        if ($request->file('image')) {
-            $validated['image'] = $this->fileUploadService->handleUploadImage($request->file('image'), 'public/images');
+        if (!is_null($invited) && isset($invited->user)) {
+            $this->userRepository->update($invited->user->id, ['password' => $validated['password']]);
+            $invited->user->markEmailAsVerified();
+
+            // Delete invitation by token
+            $this->invitationRepository->deleteByToken($validated['token']);
+        } else {
+            return redirect()->route('register.create')->with('error', 'User not found');
         }
 
-        $this->userRepository->store($validated);
-
-        return redirect()->route('login')->with('success', 'Registered Successfully');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function destroy($id)
-    {
-        //
+        return redirect()->route('login.create')->with('success', 'Verified account successfully');
     }
 }
