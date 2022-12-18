@@ -6,6 +6,7 @@ use App\Http\Requests\InvitationRequest;
 use App\Interfaces\InvitationRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Mail\InvitationMail;
+use App\Models\User;
 use App\Services\FileUploadService;
 use Mail;
 use Str;
@@ -55,9 +56,10 @@ class InvitationController extends Controller
         $user = $this->userRepository->store($validated);
         $token = $this->saveToken($user->id);
 
+        // Send email to user.
         Mail::to($user->email)->send(new InvitationMail($user, $token));
 
-        return redirect()->route('login.create')->with('success', 'We sent you verification message on email, please check');
+        return redirect()->route('login')->with('success', 'We sent you verification message on email, please check');
     }
 
     /**

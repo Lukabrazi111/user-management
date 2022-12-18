@@ -50,9 +50,9 @@ class RegisterController extends Controller
             // Delete invitation by token
             $this->invitationRepository->deleteByToken($validated['token']);
         } else {
-            return redirect()->route('register.create')->with('error', 'User not found');
+            return redirect()->route('invitation.create')->with('error', 'User not found');
         }
 
-        return redirect()->route('login.create')->with('success', 'Verified account successfully');
+        return redirect()->route('login')->with('success', 'Account verified successfully');
     }
 }

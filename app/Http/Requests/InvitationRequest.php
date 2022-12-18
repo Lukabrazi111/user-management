@@ -26,9 +26,9 @@ class InvitationRequest extends FormRequest
         return [
             'first_name' => 'required|max:255|min:3',
             'last_name' => 'required|max:255|min:3',
-            'username' => 'required|max:150|min:3',
+            'username' => 'required|max:150|min:3|unique:users,username',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:6000',
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users,email',
         ];
     }
 }

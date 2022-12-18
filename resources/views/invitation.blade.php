@@ -14,6 +14,9 @@
                     />
                 </div>
                 <div class="xl:ml-20 xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
+                    @if(session()->has('error'))
+                        <div class="mb-2 bg-red-300 p-2 rounded">{{ session()->get('error') }}</div>
+                    @endif
                     <form action="{{ route('invitation.store') }}" method="post" enctype="multipart/form-data">
                         @csrf
 
@@ -100,7 +103,7 @@
                             <p class="text-sm font-semibold mt-2 pt-1 mb-0">
                                 Already have an account?
                                 <a
-                                    href="{{ route('login.create') }}"
+                                    href="{{ route('login') }}"
                                     class="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
                                 >Login</a
                                 >
