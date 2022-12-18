@@ -17,4 +17,9 @@ return [
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
+    'not_found' => 'User not found',
+    'verified' => 'Account verified successfully',
+    'logged_in' => 'You logged in successfully',
+    'logged_out' => 'Logged out',
+
 ];

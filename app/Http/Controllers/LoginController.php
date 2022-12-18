@@ -29,10 +29,10 @@ class LoginController extends Controller
         $field_type = filter_var($validated['email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         if (!Auth::attempt([$field_type => $validated['email'], 'password' => $validated['password']])) {
-            return redirect()->back()->with('error', 'incorrect credentials');
+            return redirect()->back()->with('error', 'Incorrect credentials');
         }
 
-        return redirect()->route('todo.index')->with('success', 'You logged in successfully');
+        return redirect()->route('todo.index')->with('success', __('auth.logged_in'));
     }
 
     /**
@@ -44,6 +44,6 @@ class LoginController extends Controller
     {
         session()->flush();
         auth()->logout();
-        return redirect()->route('login.index')->with('success', 'Logged out');
+        return redirect()->route('login.index')->with('success', __('auth.logged_out'));
     }
 }

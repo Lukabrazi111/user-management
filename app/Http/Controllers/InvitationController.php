@@ -18,6 +18,7 @@ class InvitationController extends Controller
 
     /**
      * Method: construct a new instance of controller.
+     *
      * @param InvitationRepositoryInterface $invitationRepository
      * @param UserRepositoryInterface $userRepository
      * @param FileUploadService $fileUploadService
@@ -30,7 +31,7 @@ class InvitationController extends Controller
     }
 
     /**
-     * Show the form for invitation a new resource.
+     * Show the form of invitation.
      */
     public function create()
     {
@@ -38,7 +39,7 @@ class InvitationController extends Controller
     }
 
     /**
-     * Check user invitation token.
+     * Store a new resource invitation.
      *
      * @param $token
      */
@@ -50,7 +51,7 @@ class InvitationController extends Controller
             $validated['image'] = $this->fileUploadService->handleUploadImage($request->file('image'), 'public/images');
         }
 
-        $validated['password'] = Str::random(10);
+        $validated['password'] = Str::random(60);
 
         $user = $this->userRepository->store($validated);
         $token = $this->saveToken($user->id);
@@ -58,7 +59,7 @@ class InvitationController extends Controller
         // Send email to user.
         Mail::to($user->email)->send(new InvitationMail($user, $token));
 
-        return redirect()->route('login.index')->with('success', 'We sent you verification message on email, please check');
+        return redirect()->route('login.index')->with('success', __('invitation.email.sent'));
     }
 
     /**
