@@ -1,0 +1,96 @@
+<?php
+
+namespace Tests\Feature;
+
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+class LoginTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /**
+     * Get specific data.
+     *
+     * @param $email
+     * @param $password
+     * @return array
+     */
+    public function getLoginFormData($email, $password)
+    {
+        return [
+            'email' => $email,
+            'password' => $password,
+        ];
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_see_login_page()
+    {
+        $response = $this->get(route('login.index'));
+
+        $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function show_validation_error_for_empty_fields()
+    {
+        $this->post(route('login'), $this->getLoginFormData('', ''))
+            ->assertSessionHasErrors(['email', 'password']);
+
+        $response = $this->get(route('login.index'));
+        $response->assertSee('The email field is required');
+        $response->assertSee('The password field is required');
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_entered_wrong_data()
+    {
+        $response = $this->post(route('login'), $this->getLoginFormData('luka@gmail.com', 'passwd'));
+
+        $response->assertSessionHas('error', trans('auth.bad_credentials'));
+
+        $this->get(route('login.index'))
+            ->assertSee(trans('auth.bad_credentials'));
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_authorized_successfully()
+    {
+        $response = $this->post(route('login'), $this->getLoginFormData('luka@gmail.com', 'password'));
+
+        $response->assertRedirect(route('todo.index'));
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_authorize_with_username_also()
+    {
+        $response = $this->post(route('login'), $this->getLoginFormData('Lukabrazi111', 'password'));
+
+        $response->assertRedirect(route('todo.index'));
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_logged_out()
+    {
+        $this->seed();
+
+        $response = $this->actingAs(User::first())->post(route('logout'));
+
+        $response->assertSessionHas('success', trans('auth.logged_out'));
+        $response->assertRedirect(route('login.index'));
+    }
+}
