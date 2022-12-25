@@ -28,11 +28,21 @@ class LoginTest extends TestCase
     /**
      * @test
      */
-    public function a_user_can_see_login_page()
+    public function user_can_see_login_page()
     {
         $response = $this->get(route('login.index'));
 
         $response->assertOk();
+    }
+
+    /**
+     * @test
+     */
+    public function authorized_user_can_not_see_login_page() {
+        $this->seed();
+        $response = $this->actingAs(User::first())->get(route('login.index'));
+
+        $response->assertRedirect(route('todo.index'));
     }
 
     /**
@@ -51,7 +61,7 @@ class LoginTest extends TestCase
     /**
      * @test
      */
-    public function a_user_entered_wrong_data()
+    public function user_entered_wrong_data()
     {
         $response = $this->post(route('login'), $this->getLoginFormData('luka@gmail.com', 'passwd'));
 
@@ -64,7 +74,7 @@ class LoginTest extends TestCase
     /**
      * @test
      */
-    public function a_user_authorized_successfully()
+    public function user_authorized_successfully()
     {
         $response = $this->post(route('login'), $this->getLoginFormData('luka@gmail.com', 'password'));
 
@@ -74,7 +84,7 @@ class LoginTest extends TestCase
     /**
      * @test
      */
-    public function a_user_can_authorize_with_username_also()
+    public function user_can_authorize_with_username_also()
     {
         $response = $this->post(route('login'), $this->getLoginFormData('Lukabrazi111', 'password'));
 
@@ -84,7 +94,7 @@ class LoginTest extends TestCase
     /**
      * @test
      */
-    public function a_user_logged_out()
+    public function user_logged_out()
     {
         $this->seed();
 
