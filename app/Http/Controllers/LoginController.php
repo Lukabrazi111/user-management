@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Login\LoginRequest;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -20,12 +22,18 @@ class LoginController extends Controller
      * Authenticate user in the system.
      *
      * @param LoginRequest $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function login(LoginRequest $request)
     {
         $validated = $request->validated();
         $field_type = filter_var($validated['email'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+        $user = User::where($field_type, $validated['email'])->first();
+
+        if ($user && is_null($user->email_verified_at)) {
+            return redirect()->back()->with('error', __('auth.not_verified'));
+        }
 
         if (!Auth::attempt([$field_type => $validated['email'], 'password' => $validated['password']])) {
             return redirect()->back()->with('error', __('auth.bad_credentials'));
@@ -37,7 +45,7 @@ class LoginController extends Controller
     /**
      * Logout user from the system.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function logout()
     {
