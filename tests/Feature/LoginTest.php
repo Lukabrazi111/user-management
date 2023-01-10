@@ -65,10 +65,10 @@ class LoginTest extends TestCase
     {
         $response = $this->post(route('login'), $this->getLoginFormData('luka@gmail.com', 'passwd'));
 
-        $response->assertSessionHas('error', trans('auth.bad_credentials'));
+        $response->assertSessionHas('error', __('auth.bad_credentials'));
 
         $this->get(route('login.create'))
-            ->assertSee(trans('auth.bad_credentials'));
+            ->assertSee(__('auth.bad_credentials'));
     }
 
     /**
@@ -100,7 +100,7 @@ class LoginTest extends TestCase
 
         $response = $this->actingAs(User::first())->post(route('logout'));
 
-        $response->assertSessionHas('success', trans('auth.logged_out'));
+        $response->assertSessionHas('success', __('auth.logged_out'));
         $response->assertRedirect(route('login.create'));
     }
 }
