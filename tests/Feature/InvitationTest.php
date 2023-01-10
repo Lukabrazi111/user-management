@@ -96,6 +96,23 @@ class InvitationTest extends TestCase
     /**
      * @test
      */
+    public function user_can_not_verify_his_account_if_token_does_not_exist()
+    {
+        $token = Str::random(30);
+
+        $data = [
+            'token' => $token,
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ];
+
+        $this->post(route('register.store', $data))
+            ->assertSessionHasErrors('token');
+    }
+
+    /**
+     * @test
+     */
     public function user_exist_in_database_after_invitation()
     {
         $this->post(route('invitation.store', $this->getUserData('Geo', 'Hotz', 'geohotz', 'geo@gmail.com')));
