@@ -2,7 +2,10 @@
 
 namespace Tests\Feature;
 
+use App\Models\Invitation;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 
 class InvitationTest extends TestCase
@@ -42,6 +45,52 @@ class InvitationTest extends TestCase
             'email' => $email,
             'image' => $image,
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function user_invitation_token_exist_after_submit_form()
+    {
+        $this->post(route('invitation.store', $this->getUserData('Geo', 'Hotz', 'geohotz', 'geo@gmail.com')))
+            ->assertRedirectToRoute('login.create')
+            ->assertSessionHas('success', __('invitation.email.sent'));
+
+        $this->get(route('login.create'))
+            ->assertSee(__('invitation.email.sent'));
+
+        $user = User::first();
+        $invitation = Invitation::create(['user_id' => $user->id, 'token' => Str::random(30)]);
+
+        $this->assertDatabaseHas('invitations', ['user_id' => $invitation->user_id, 'token' => $invitation->token]);
+    }
+
+    /**
+     * @test
+     */
+    public function user_can_verify_email_with_specific_invitation_token()
+    {
+        $user = User::factory()->create(['email_verified_at' => null, 'email' => 'geo@gmail.com', 'username' => 'geohotz']);
+        $token = Str::random(30);
+        $invitation = Invitation::create(['user_id' => $user->id, 'token' => $token]);
+
+        $this->get(route('register.create', $token))
+            ->assertOk();
+
+        $data = [
+            'token' => $invitation->token,
+            'password' => 'password',
+            'password_confirmation' => 'password',
+        ];
+
+        $response = $this->post(route('register.store', $data));
+        $response->assertSessionHas('success', __('auth.verified'));
+        $response->assertRedirectToRoute('login.create');
+        $response->assertSessionMissing('error');
+
+        $this->assertDatabaseCount('invitations', 0);
+        $this->assertDatabaseMissing('invitations', $invitation->toArray());
+        $this->assertDatabaseHas('users', ['email_verified_at' => now()]);
     }
 
     /**

@@ -59,7 +59,7 @@ class InvitationController extends Controller
         // Send email to user.
         Mail::to($user->email)->send(new InvitationMail($user, $token));
 
-        return redirect()->route('login.index')->with('success', __('invitation.email.sent'));
+        return redirect()->route('login.create')->with('success', __('invitation.email.sent'));
     }
 
     /**
