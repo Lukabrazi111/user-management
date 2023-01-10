@@ -53,6 +53,6 @@ class RegisterController extends Controller
             return redirect()->route('invitation.create')->with('error', __('auth.not_found'));
         }
 
-        return redirect()->route('login.index')->with('success', __('auth.verified'));
+        return redirect()->route('login.create')->with('success', __('auth.verified'));
     }
 }
