@@ -13,7 +13,7 @@ class LoginController extends Controller
      * Show login page.
      *
      */
-    public function index()
+    public function create()
     {
         return view('login');
     }
@@ -51,6 +51,6 @@ class LoginController extends Controller
     {
         session()->flush();
         auth()->logout();
-        return redirect()->route('login.index')->with('success', __('auth.logged_out'));
+        return redirect()->route('login.create')->with('success', __('auth.logged_out'));
     }
 }

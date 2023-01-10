@@ -30,7 +30,7 @@ class LoginTest extends TestCase
      */
     public function user_can_see_login_page()
     {
-        $response = $this->get(route('login.index'));
+        $response = $this->get(route('login.create'));
 
         $response->assertOk();
     }
@@ -40,7 +40,7 @@ class LoginTest extends TestCase
      */
     public function authorized_user_can_not_see_login_page() {
         $this->seed();
-        $response = $this->actingAs(User::first())->get(route('login.index'));
+        $response = $this->actingAs(User::first())->get(route('login.create'));
 
         $response->assertRedirect(route('todo.index'));
     }
@@ -53,7 +53,7 @@ class LoginTest extends TestCase
         $this->post(route('login'), $this->getLoginFormData('', ''))
             ->assertSessionHasErrors(['email', 'password']);
 
-        $response = $this->get(route('login.index'));
+        $response = $this->get(route('login.create'));
         $response->assertSee('The email field is required');
         $response->assertSee('The password field is required');
     }
@@ -67,7 +67,7 @@ class LoginTest extends TestCase
 
         $response->assertSessionHas('error', trans('auth.bad_credentials'));
 
-        $this->get(route('login.index'))
+        $this->get(route('login.create'))
             ->assertSee(trans('auth.bad_credentials'));
     }
 
@@ -101,6 +101,6 @@ class LoginTest extends TestCase
         $response = $this->actingAs(User::first())->post(route('logout'));
 
         $response->assertSessionHas('success', trans('auth.logged_out'));
-        $response->assertRedirect(route('login.index'));
+        $response->assertRedirect(route('login.create'));
     }
 }

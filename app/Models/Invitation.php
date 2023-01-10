@@ -18,7 +18,7 @@ class Invitation extends Model
     ];
 
     /**
-     * Invitation belongs to user id.
+     * Invitation belongs to user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
