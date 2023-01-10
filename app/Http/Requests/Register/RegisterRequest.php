@@ -24,7 +24,7 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'token' => 'required|string|exists:invitations',
+            'token' => 'required|string|exists:invitations,token',
             'password' => 'required|min:3|confirmed',
         ];
     }
