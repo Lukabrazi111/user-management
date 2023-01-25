@@ -42,7 +42,7 @@ class LoginTest extends TestCase
         $this->seed();
         $response = $this->actingAs(User::first())->get(route('login.create'));
 
-        $response->assertRedirect(route('users.index'));
+        $response->assertRedirect(route('todo.index'));
     }
 
     /**
@@ -78,7 +78,7 @@ class LoginTest extends TestCase
     {
         $response = $this->post(route('login'), $this->getLoginFormData('luka@gmail.com', 'password'));
 
-        $response->assertRedirect(route('users.index'));
+        $response->assertRedirect(route('todo.index'));
     }
 
     /**
@@ -88,7 +88,7 @@ class LoginTest extends TestCase
     {
         $response = $this->post(route('login'), $this->getLoginFormData('Lukabrazi111', 'password'));
 
-        $response->assertRedirect(route('users.index'));
+        $response->assertRedirect(route('todo.index'));
     }
 
     /**

@@ -39,7 +39,7 @@ class LoginController extends Controller
             return redirect()->back()->with('error', __('auth.bad_credentials'));
         }
 
-        return redirect()->route('users.index')->with('success', __('auth.logged_in'));
+        return redirect()->route('todo.index')->with('success', __('auth.logged_in'));
     }
 
     /**

@@ -90,7 +90,7 @@ class InvitationTest extends TestCase
 
         $this->assertDatabaseCount('invitations', 0);
         $this->assertDatabaseMissing('invitations', $invitation->toArray());
-        $this->assertDatabaseHas('users', ['email_verified_at' => now()]);
+        $this->assertDatabaseHas('todo', ['email_verified_at' => now()]);
     }
 
     /**
@@ -117,6 +117,6 @@ class InvitationTest extends TestCase
     {
         $this->post(route('invitation.store', $this->getUserData('Geo', 'Hotz', 'geohotz', 'geo@gmail.com')));
 
-        $this->assertDatabaseHas('users', ['email' => 'geo@gmail.com', 'email_verified_at' => null]);
+        $this->assertDatabaseHas('todo', ['email' => 'geo@gmail.com', 'email_verified_at' => null]);
     }
 }
