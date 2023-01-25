@@ -19,7 +19,7 @@ class TodoFactory extends Factory
     {
         return [
             'user_id' => User::first(),
-            'title' => $this->faker->text(rand(24, 41)),
+            'todo' => $this->faker->text(rand(24, 41)),
         ];
     }
 }

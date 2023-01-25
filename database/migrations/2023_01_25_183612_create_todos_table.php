@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('todos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
-            $table->string('title');
-            $table->enum('status', ['complete', 'incomplete'])->default('incomplete');
+            $table->string('todo')->unique();
+            $table->enum('status', ['completed', 'incomplete'])->default('incomplete');
             $table->timestamps();
         });
     }

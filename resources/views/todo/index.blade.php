@@ -8,13 +8,18 @@
                 <div class="mb-4">
                     <h1 class="text-grey-darkest">Todo List</h1>
                     <div class="flex mt-4">
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
-                               placeholder="Add Todo">
+                        <input
+                            name="todo"
+                            class="{{ $errors->has('todo') ? 'border border-red-400' : '' }} shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker"
+                            placeholder="Add Todo">
                         <button
                             class="p-2 border rounded text-teal border-teal hover:text-white hover:bg-sky-400 transition-colors">
                             Add
                         </button>
                     </div>
+                    @error('todo')
+                    <p class="mt-2 text-red-500">{{ $message }}</p>
+                    @enderror
                 </div>
             </form>
 
