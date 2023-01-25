@@ -1,7 +1,8 @@
 <x-layout>
     <x-navigation/>
-    <div class="mt-20 w-full flex items-center justify-center bg-teal-lightest font-sans">
-        <div class="bg-white rounded shadow p-6 m-4 w-1/2">
+
+    <div class="container mx-auto mt-20 w-1/2 flex items-center justify-center font-sans">
+        <div class="bg-white rounded shadow p-6 m-4 w-full">
             <form action="#" method="post">
                 @csrf
                 <div class="mb-4">
@@ -17,7 +18,9 @@
                 </div>
             </form>
 
-            <x-todos.todo-list/>
+            <div>
+                <x-todos.todo-list :todos="$todos"/>
+            </div>
         </div>
     </div>
 </x-layout>
