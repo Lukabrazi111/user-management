@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -56,12 +57,22 @@ class User extends Authenticatable implements MustVerifyEmail
      * Get the user's full name.
      *
      */
-    protected function fullName(): Attribute
+    public function fullName(): Attribute
     {
         return Attribute::make(
             get: function () {
                 return ucwords($this->first_name . ' ' . $this->last_name);
             }
         );
+    }
+
+    /**
+     * Relationship: User has many todos.
+     *
+     * @return HasMany
+     */
+    public function todos(): HasMany
+    {
+        return $this->hasMany(Todo::class, 'user_id');
     }
 }
