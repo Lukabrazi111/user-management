@@ -7,9 +7,18 @@ use App\Models\Todo;
 
 class TodoRepository implements TodoRepositoryInterface
 {
-    public function get()
+    public function get($request, $pagination = null)
     {
-        return Todo::all();
+        $todos = Todo::query()
+            ->latest();
+
+        if (is_null($pagination)) {
+            return $todos->get();
+        }
+
+        $todos = $todos->paginate($pagination);
+
+        return $todos;
     }
 
     public function create(array $data)

@@ -21,6 +21,11 @@
             <div>
                 <x-todos.todo-list :todos="$todos"/>
             </div>
+
+            {{-- Pagination --}}
+            <div class="flex items-center justify-center mt-6">
+                {{ $todos->links() }}
+            </div>
         </div>
     </div>
 </x-layout>
