@@ -48,7 +48,7 @@ class InvitationController extends Controller
         $validated = $request->validated();
 
         if ($request->file('image')) {
-            $validated['image'] = $this->fileUploadService->handleUploadImage($request->file('image'), 'public/images');
+            $validated['image'] = $this->fileUploadService->upload($request->file('image'), 'public/images');
         }
 
         $validated['password'] = Str::random(60);
