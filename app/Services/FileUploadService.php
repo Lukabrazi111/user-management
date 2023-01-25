@@ -11,7 +11,7 @@ class FileUploadService
      * @param $path
      * @return mixed
      */
-    public function handleUploadImage($image, $path)
+    public function upload($image, $path)
     {
         return $image->store($path);
     }
