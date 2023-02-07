@@ -7,7 +7,7 @@
                 class="bg-gray-200 py-1 px-4 rounded font-bold text-green-600 underline text-2xl">{{ session()->get('success') }}</div>
         @endif
         <div class="bg-white rounded shadow p-6 m-4 w-full">
-            <form action="#" method="post">
+            <form action="{{ route('todo.store') }}" method="post">
                 @csrf
                 <div class="mb-4">
                     <h1 class="text-grey-darkest">Todo List</h1>

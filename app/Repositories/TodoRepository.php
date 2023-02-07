@@ -21,6 +21,11 @@ class TodoRepository implements TodoRepositoryInterface
         return $todos;
     }
 
+    public function getById($id)
+    {
+        return Todo::findOrFail($id);
+    }
+
     public function create(array $data)
     {
         return Todo::create($data);
