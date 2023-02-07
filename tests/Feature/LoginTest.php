@@ -87,7 +87,6 @@ class LoginTest extends TestCase
     public function user_can_authorize_with_username_also()
     {
         $response = $this->post(route('login'), $this->getLoginFormData('Lukabrazi111', 'password'));
-
         $response->assertRedirect(route('todo.create'));
     }
 
