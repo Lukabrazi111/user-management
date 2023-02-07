@@ -2,8 +2,11 @@
 
 namespace App\Interfaces;
 
-interface TodoRepositoryInterface {
+interface TodoRepositoryInterface
+{
     public function get($request, $pagination = null);
+
+    public function getById($id);
 
     public function create(array $data);
 

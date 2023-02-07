@@ -3,7 +3,7 @@
 
     <div class="container mx-auto mt-20 w-1/2 flex items-center justify-center font-sans">
         <div class="bg-white rounded shadow p-6 m-4 w-full">
-            <form action="#" method="post">
+            <form action="{{ route('todo.store') }}" method="post">
                 @csrf
                 <div class="mb-4">
                     <h1 class="text-grey-darkest">Todo List</h1>
