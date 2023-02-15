@@ -2,10 +2,6 @@
     <x-navigation/>
 
     <div class="container mx-auto mt-20 w-1/2 flex flex-col items-center justify-center font-sans">
-        @if(session()->has('success'))
-            <div
-                class="bg-gray-200 py-1 px-4 rounded font-bold text-green-600 underline text-2xl">{{ session()->get('success') }}</div>
-        @endif
         <div class="bg-white rounded shadow p-6 m-4 w-full">
             <form action="{{ route('todo.store') }}" method="post">
                 @csrf

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Todo\TodoRequest;
 use App\Http\Requests\Todo\UpdateTodoRequest;
+use App\Http\Requests\UpdateTodoStatusRequest;
 use App\Interfaces\TodoRepositoryInterface;
 use App\Models\Todo;
 
@@ -53,16 +54,32 @@ class TodoController extends Controller
         try {
             $validated = $request->validated();
 
-            $todo = $this->todoRepository->getById($todo->id);
+            $this->todoRepository->update($todo->id, $validated);
+            return back()->with('success', __('todo.updated'));
+        } catch (\Throwable $e) {
+            throw $e;
+        }
+    }
 
-            if ($todo->status === 'incomplete') {
-                $validated['status'] = 'completed';
-            } else {
+    /**
+     * Update status of stored data from database.
+     *
+     * @param UpdateTodoStatusRequest $request
+     * @param Todo $todo
+     */
+    public function updateStatus(UpdateTodoStatusRequest $request, Todo $todo)
+    {
+        try {
+            $validated = $request->validated();
+
+            if ($todo->status === 'completed') {
                 $validated['status'] = 'incomplete';
+            } else {
+                $validated['status'] = 'completed';
             }
 
             $this->todoRepository->update($todo->id, $validated);
-            return back()->with('success', __('todo.updated'));
+            return back()->with('success', __('todo.status'));
         } catch (\Throwable $e) {
             throw $e;
         }
