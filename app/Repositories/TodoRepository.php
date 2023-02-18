@@ -9,7 +9,7 @@ class TodoRepository implements TodoRepositoryInterface
 {
     public function get($request, $pagination = null)
     {
-        $todos = Todo::query()
+        $todos = $request->user()->todos()
             ->latest();
 
         if (is_null($pagination)) {

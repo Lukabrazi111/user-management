@@ -2,6 +2,9 @@
     <x-navigation/>
 
     <div class="container mx-auto mt-20 w-1/2 flex flex-col items-center justify-center font-sans">
+        @if(session()->has('error'))
+            <div class="text-red-400 font-bold text-lg underline">{{ session()->get('error') }}</div>
+        @endif
         <div class="bg-white rounded shadow p-6 m-4 w-full">
             <form action="{{ route('todo.store') }}" method="post">
                 @csrf

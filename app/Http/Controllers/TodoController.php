@@ -44,24 +44,6 @@ class TodoController extends Controller
     }
 
     /**
-     * Update stored data from database.
-     *
-     * @param UpdateTodoRequest $request
-     * @param Todo $todo
-     */
-    public function update(UpdateTodoRequest $request, Todo $todo)
-    {
-        try {
-            $validated = $request->validated();
-
-            $this->todoRepository->update($todo->id, $validated);
-            return back()->with('success', __('todo.updated'));
-        } catch (\Throwable $e) {
-            throw $e;
-        }
-    }
-
-    /**
      * Update status of stored data from database.
      *
      * @param UpdateTodoStatusRequest $request
@@ -69,6 +51,8 @@ class TodoController extends Controller
      */
     public function updateStatus(UpdateTodoStatusRequest $request, Todo $todo)
     {
+        $this->authorize('update', $todo);
+
         try {
             $validated = $request->validated();
 
@@ -86,12 +70,34 @@ class TodoController extends Controller
     }
 
     /**
+     * Update stored data from database.
+     *
+     * @param UpdateTodoRequest $request
+     * @param Todo $todo
+     */
+    public function update(UpdateTodoRequest $request, Todo $todo)
+    {
+        $this->authorize('update', $todo);
+
+        try {
+            $validated = $request->validated();
+
+            $this->todoRepository->update($todo->id, $validated);
+            return back()->with('success', __('todo.updated'));
+        } catch (\Throwable $e) {
+            throw $e;
+        }
+    }
+
+    /**
      * Delete stored data from storage.
      *
      * @param Todo $todo
      */
     public function destroy(Todo $todo)
     {
+        $this->authorize('delete', $todo);
+
         try {
             $this->todoRepository->destroy($todo->id);
 
