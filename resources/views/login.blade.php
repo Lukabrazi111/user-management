@@ -82,7 +82,7 @@
                                 Don't have an account?
                                 <a
                                     href="{{ route('invitation.create') }}"
-                                    class="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
+                                    class="text-red-400 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out"
                                 >Register</a
                                 >
                             </p>
